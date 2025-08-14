@@ -8,14 +8,10 @@
 import SwiftUI
 
 struct BasicView: View {
-    private var isPresented: Bool
+    @State private var isPresented: Bool = true
     private let text: String
     
-    init(
-        isPresented: Bool,
-        text: String
-    ) {
-        self.isPresented = isPresented
+    init(text: String) {
         self.text = text
     }
     
@@ -27,6 +23,13 @@ struct BasicView: View {
                 Spacer()
             }
             .background(Color.green)
+            .onTapGesture {
+                Task { @MainActor in
+                    withAnimation(.spring()) {
+                        isPresented = false
+                    }
+                }
+            }
         } else {
             EmptyView()
         }
@@ -40,24 +43,12 @@ extension BasicView: Equatable {
 }
 
 struct ContentView: View {
-    @State var isPresented = true
     
     var body: some View {
         LazyVStack(spacing: 0) {
-            BasicView(isPresented: true, text: "First")
-            BasicView(isPresented: isPresented, text: "Second")
-            BasicView(isPresented: true, text: "Third")
-            
-            Button {
-                isPresented.toggle()
-            } label: {
-                Text("Hide the second")
-                    .padding()
-                    .foregroundColor(Color.white)
-                    .background(Color.blue)
-                    .padding(.top, 50)
-            }
-
+            BasicView(text: "First")
+            BasicView(text: "Second")
+            BasicView(text: "Third")
         }
     }
 }
