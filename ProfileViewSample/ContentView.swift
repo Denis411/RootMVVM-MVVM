@@ -7,33 +7,6 @@
 
 import SwiftUI
 
-class ProfileRootVM: ObservableObject {
-    // MARK: - Actions
-    func didTapFavoriteProducts() {
-        print("Favorite products tapped")
-    }
-    
-    func didTapLoyaltyProgramInfo() {
-        print("Loyalty program info tapped")
-    }
-    
-    func didTapGeolocation() {
-        print("Geolocation tapped")
-    }
-    
-    func didTapHelp() {
-        print("Help tapped")
-    }
-    
-    func didTapLegalInfo() {
-        print("Legal info tapped")
-    }
-    
-    func didTapSendResume() {
-        print("Send resume tapped")
-    }
-}
-
 struct ContentView: View {
     @StateObject var vm = ProfileRootVM()
     
