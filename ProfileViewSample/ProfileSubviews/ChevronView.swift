@@ -9,7 +9,7 @@ struct ChevronView<Content>: View where Content: View  {
     init(
         leftImage: Image? = nil,
         title: String,
-        isInitiallyOpen: Bool = true,
+        isInitiallyOpen: Bool = false,
         @ViewBuilder content: () -> Content
     ) {
         self.leftImage = leftImage
@@ -34,7 +34,7 @@ struct ChevronView<Content>: View where Content: View  {
                 content
             }
         }
-        .cornerRadius(5)
+        .cornerRadius(15)
     }
 }
 

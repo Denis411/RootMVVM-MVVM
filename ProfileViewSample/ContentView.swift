@@ -7,28 +7,56 @@
 
 import SwiftUI
 
+class ProfileRootVM: ObservableObject {
+    func foo() {
+        print("Foo")
+    }
+}
+
 struct ContentView: View {
-    let lines = (1...100).map { String($0) }
+    @StateObject var vm = ProfileRootVM()
     
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
-                ForEach(lines, id: \.self) { num in
-                    BasicView(text: "Line \(num)", bottomOffsetIfPresented: 10)
-                    ChevronView(
-                        leftImage: Image(systemName: "creditcard"),
-                        title: "Chevron"
-                    ) {
-                        HStack {
-                            Text("Some text for Chevron")
-                                .padding()
-                            Spacer()
-                        }
-                        .background(Color.blue)
-                    }
+                ChevronView(
+                    leftImage: Image(systemName: "cart"),
+                    title: "Покупки"
+                ) {
+                    ChevronButton(text: "Избранные товары", action: vm.foo)
+                }
+                
+                ChevronView(
+                    leftImage: Image(systemName: "creditcard.and.123"),
+                    title: "Программа лояльности"
+                ) {
+                    ChevronButton(text: "О программе лояльности", action: vm.foo)
+                }
+                
+                ChevronView(
+                    leftImage: Image(systemName: "location.fill"),
+                    title: "Адрес"
+                ) {
+                    ChevronButton(text: "Геолокация", action: vm.foo)
+                }
+                
+                ChevronView(
+                    leftImage: Image(systemName: "envelope.fill"),
+                    title: "Обратная связь"
+                ) {
+                    ChevronButton(text: "Помощь", action: vm.foo)
+                    ChevronButton(text: "Правовая информация", action: vm.foo)
+                }
+                
+                ChevronView(
+                    leftImage: Image(systemName: "backpack"),
+                    title: "Работа у нас"
+                ) {
+                    ChevronButton(text: "Отправить резюме", action: vm.foo)
                 }
             }
         }
+        .background(Color.gray)
     }
 }
 
