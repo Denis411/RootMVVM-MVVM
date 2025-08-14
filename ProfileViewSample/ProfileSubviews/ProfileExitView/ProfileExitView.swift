@@ -15,14 +15,18 @@ struct ProfileExitView: View {
     }
     
     var body: some View {
-        HStack {
-            Image(systemName: "square.and.arrow.up")
-            Text("Выход")
-            Spacer()
-        }
-        .padding()
-        .onTapGesture {
-            vm.exitAction()
+        if vm.isUserLoggedIn {
+            HStack {
+                Image(systemName: "square.and.arrow.up")
+                Text("Выход")
+                Spacer()
+            }
+            .padding()
+            .onTapGesture {
+                vm.exitAction()
+            }
+        } else {
+           EmptyView()
         }
     }
 }
