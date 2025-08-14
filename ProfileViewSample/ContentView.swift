@@ -10,9 +10,14 @@ import SwiftUI
 struct BasicView: View {
     @State private var isPresented: Bool = true
     private let text: String
+    private let bottomOffsetIfPresented: CGFloat
     
-    init(text: String) {
+    init(
+        text: String,
+        bottomOffsetIfPresented: CGFloat
+    ) {
         self.text = text
+        self.bottomOffsetIfPresented = bottomOffsetIfPresented
     }
     
     var body: some View {
@@ -23,6 +28,7 @@ struct BasicView: View {
                 Spacer()
             }
             .background(Color.green)
+            .padding(.bottom, bottomOffsetIfPresented)
             .onTapGesture {
                 Task { @MainActor in
                     withAnimation(.spring()) {
@@ -46,9 +52,9 @@ struct ContentView: View {
     
     var body: some View {
         LazyVStack(spacing: 0) {
-            BasicView(text: "First")
-            BasicView(text: "Second")
-            BasicView(text: "Third")
+            BasicView(text: "First", bottomOffsetIfPresented: 10)
+            BasicView(text: "Second", bottomOffsetIfPresented: 20)
+            BasicView(text: "Third", bottomOffsetIfPresented: 0)
         }
     }
 }
