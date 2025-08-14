@@ -51,6 +51,8 @@ struct ContentView: View {
                     ChevronButton(text: "Отправить резюме", action: vm.didTapSendResume)
                 }
             }
+            
+            ProfileExitView(repo: vm.repo)
         }
         .background(Color.gray)
     }

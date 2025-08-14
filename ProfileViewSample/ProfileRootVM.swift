@@ -8,6 +8,8 @@
 import Combine
 
 class ProfileRootVM: ObservableObject {
+    let repo = Repository()
+    
     // MARK: - Actions
     func didTapFavoriteProducts() {
         print("Favorite products tapped")

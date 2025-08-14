@@ -9,6 +9,9 @@ import SwiftUI
 
 @main
 struct ProfileViewSampleApp: App {
+    // Use DI
+    private let repo: RepositoryProtocol = Repository()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
