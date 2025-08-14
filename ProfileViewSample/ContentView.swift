@@ -15,7 +15,10 @@ struct ContentView: View {
             VStack(spacing: 0) {
                 ForEach(lines, id: \.self) { num in
                     BasicView(text: "Line \(num)", bottomOffsetIfPresented: 10)
-                    ChevronView(title: "Chevron") {
+                    ChevronView(
+                        leftImage: Image(systemName: "creditcard"),
+                        title: "Chevron"
+                    ) {
                         HStack {
                             Text("Some text for Chevron")
                                 .padding()

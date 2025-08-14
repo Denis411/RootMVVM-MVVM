@@ -1,15 +1,18 @@
 import SwiftUI
 
 struct ChevronView<Content>: View where Content: View  {
+    private let leftImage: Image?
     private let title: String
     @State var isOpened: Bool
     private let content: Content
     
     init(
+        leftImage: Image? = nil,
         title: String,
         isInitiallyOpen: Bool = true,
         @ViewBuilder content: () -> Content
     ) {
+        self.leftImage = leftImage
         self.title = title
         self.isOpened = isInitiallyOpen
         self.content = content()
@@ -17,7 +20,7 @@ struct ChevronView<Content>: View where Content: View  {
     
     var body: some View {
         VStack(spacing: 0) {
-            Header(title: title, isOpened: $isOpened)
+            Header(leftImage: leftImage, title: title, isOpened: $isOpened)
                 .padding()
                 .background(Color.orange)
                 .onTapGesture {
@@ -37,16 +40,25 @@ struct ChevronView<Content>: View where Content: View  {
 
 extension ChevronView {
     struct Header: View {
+        private let leftImage: Image?
         let title: String
         @Binding private var isOpened: Bool
         
-        init(title: String, isOpened: Binding<Bool>) {
+        init(
+            leftImage: Image?,
+            title: String,
+            isOpened: Binding<Bool>
+        ) {
+            self.leftImage = leftImage
             self.title = title
             self._isOpened = isOpened
         }
         
         var body: some View {
             HStack(alignment: .center) {
+                if let leftImage {
+                    leftImage
+                }
                 Text(title)
                 Spacer()
                 Image(systemName: "chevron.up")
