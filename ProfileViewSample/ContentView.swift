@@ -12,7 +12,7 @@ struct ContentView: View {
     
     var body: some View {
         ScrollView {
-            LazyVStack(spacing: 0) {
+            VStack(spacing: 0) {
                 ForEach(lines, id: \.self) { num in
                     BasicView(text: "Line \(num)", bottomOffsetIfPresented: 10)
                     ChevronView(title: "Chevron") {
