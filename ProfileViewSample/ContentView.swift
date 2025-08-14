@@ -7,11 +7,13 @@
 
 import SwiftUI
 
-struct OrderTrackModel: Identifiable {
-    var state = "Приняли"
-    var orderName: String = "Заказ №120080 от 05.08.2025"
-    var id = UUID().uuidString
-    var description: String = "Самовывоз из магазина"
+extension OrderTrackVM {
+    struct OrderTrackModel: Identifiable {
+        var state = "Приняли"
+        var orderName: String = "Заказ №120080 от 05.08.2025"
+        var id = UUID().uuidString
+        var description: String = "Самовывоз из магазина"
+    }
 }
 
 final class OrderTrackVM: ObservableObject {
@@ -44,11 +46,11 @@ struct OrderTrackView: View {
 
 extension OrderTrackView {
     struct Cell: View {
-        private let model: OrderTrackModel
+        private let model: OrderTrackVM.OrderTrackModel
         @MainActor @State private var isOpen: Bool
         
         init(
-            model: OrderTrackModel,
+            model: OrderTrackVM.OrderTrackModel,
             isOpen: Bool
         ) {
             self.model = model
