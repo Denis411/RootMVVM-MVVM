@@ -8,7 +8,11 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var vm = ProfileRootVM()
+    @StateObject var vm: ProfileRootVM
+    
+    init(repo: RepositoryProtocol) {
+        self._vm = StateObject(wrappedValue: ProfileRootVM(repo: repo))
+    }
     
     var body: some View {
         ScrollView {
@@ -59,5 +63,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    ContentView(repo: Repository())
 }

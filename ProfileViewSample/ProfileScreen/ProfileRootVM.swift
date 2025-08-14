@@ -8,7 +8,11 @@
 import Combine
 
 class ProfileRootVM: ObservableObject {
-    let repo = Repository()
+    let repo: RepositoryProtocol
+    
+    init(repo: RepositoryProtocol) {
+        self.repo = repo
+    }
     
     // MARK: - Actions
     func didTapFavoriteProducts() {
