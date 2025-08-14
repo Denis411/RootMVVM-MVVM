@@ -49,12 +49,15 @@ extension BasicView: Equatable {
 }
 
 struct ContentView: View {
+    let lines = (1...100).map { String($0) }
     
     var body: some View {
-        LazyVStack(spacing: 0) {
-            BasicView(text: "First", bottomOffsetIfPresented: 10)
-            BasicView(text: "Second", bottomOffsetIfPresented: 20)
-            BasicView(text: "Third", bottomOffsetIfPresented: 0)
+        ScrollView {
+            LazyVStack(spacing: 0) {
+                ForEach(lines, id: \.self) { num in
+                    BasicView(text: "Line \(num)", bottomOffsetIfPresented: 10)
+                }
+            }
         }
     }
 }
