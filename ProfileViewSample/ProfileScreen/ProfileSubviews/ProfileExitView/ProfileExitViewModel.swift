@@ -8,18 +8,18 @@
 import Combine
 
 final class ProfileExitViewModel: ObservableObject {
-    @Published var isUserLoggedIn: Bool
+    @Published var isViewEmpty: Bool
     private let repo: RepositoryProtocol
     
     init(repo: RepositoryProtocol) {
-        self.isUserLoggedIn = repo.isUserLoggedIn
+        self.isViewEmpty = !repo.isUserLoggedIn
         self.repo = repo
         repo.addListener(self)
     }
     
     func exitAction() {
         Task { @MainActor in
-            assert(isUserLoggedIn == true)
+            assert(isViewEmpty == false)
             do {
                 try await repo.logOutUser()
             } catch {
@@ -31,17 +31,17 @@ final class ProfileExitViewModel: ObservableObject {
 
 extension ProfileExitViewModel: RepositoryListener {
     func userDidLogIn() async {
-        if isUserLoggedIn != true {
+        if isViewEmpty != false {
             await MainActor.run {
-                isUserLoggedIn = true
+                isViewEmpty = false
             }
         }
     }
     
     func userDidLogOut() async {
-        if isUserLoggedIn != false {
+        if isViewEmpty != true {
             await MainActor.run {
-                isUserLoggedIn = false
+                isViewEmpty = true
             }
         }
     }

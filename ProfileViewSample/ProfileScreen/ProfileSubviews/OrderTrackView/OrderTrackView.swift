@@ -15,7 +15,9 @@ struct OrderTrackView: View {
     }
     
     var body: some View {
-        if vm.hasUser {
+        if vm.isViewEmpty {
+            EmptyView()
+        } else {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(alignment: .top, spacing: 20) {
                     ForEach(vm.models) { model in
@@ -27,8 +29,6 @@ struct OrderTrackView: View {
                     }
                 }
             }
-        } else {
-            EmptyView()
         }
     }
 }

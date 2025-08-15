@@ -8,21 +8,21 @@
 import Combine
 
 final class RegistrationViewModel: ObservableObject {
-    @Published var isUserLoggedIn: Bool
+    @Published var isViewEmpty: Bool
     private let repo: RepositoryProtocol
     
     init(repo: RepositoryProtocol) {
         self.repo = repo
-        self.isUserLoggedIn = repo.isUserLoggedIn
+        self.isViewEmpty = repo.isUserLoggedIn
         repo.addListener(self)
     }
     
     func logInUser() {
-        assert(isUserLoggedIn == false)
+        assert(isViewEmpty == false)
         Task { @MainActor in
             do {
                 try await repo.logInUser()
-                isUserLoggedIn = true
+                isViewEmpty = true
             } catch {
                 print("login error")
             }
@@ -32,17 +32,17 @@ final class RegistrationViewModel: ObservableObject {
 
 extension RegistrationViewModel: RepositoryListener {
     func userDidLogIn() async {
-        if isUserLoggedIn != true {
+        if isViewEmpty != true {
             await MainActor.run {
-                isUserLoggedIn = true
+                isViewEmpty = true
             }
         }
     }
     
     func userDidLogOut() async {
-        if isUserLoggedIn != false {
+        if isViewEmpty != false {
             await MainActor.run {
-                isUserLoggedIn = false
+                isViewEmpty = false
             }
         }
     }

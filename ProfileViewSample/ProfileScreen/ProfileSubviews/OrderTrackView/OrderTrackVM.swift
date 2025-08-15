@@ -9,7 +9,7 @@ import Combine
 
 final class OrderTrackVM: ObservableObject {
     private let repo: RepositoryProtocol
-    @Published var hasUser: Bool
+    @Published var isViewEmpty: Bool
     @Published var models = [
         OrderTrackModel(),
         OrderTrackModel(),
@@ -20,24 +20,24 @@ final class OrderTrackVM: ObservableObject {
     
     init(repo: RepositoryProtocol) {
         self.repo = repo
-        self.hasUser = repo.isUserLoggedIn
+        self.isViewEmpty = !repo.isUserLoggedIn
         repo.addListener(self)
     }
 }
 
 extension OrderTrackVM: RepositoryListener {
     func userDidLogIn() async {
-        if hasUser != true {
+        if isViewEmpty != false {
             await MainActor.run {
-                hasUser = true
+                isViewEmpty = false
             }
         }
     }
     
     func userDidLogOut() async {
-        if hasUser != false {
+        if isViewEmpty != true {
             await MainActor.run {
-                hasUser = false
+                isViewEmpty = true
             }
         }
     }

@@ -15,7 +15,7 @@ struct RegistrationView: View {
     }
     
     var body: some View {
-        if vm.isUserLoggedIn {
+        if vm.isViewEmpty {
             EmptyView()
         } else {
             VStack {

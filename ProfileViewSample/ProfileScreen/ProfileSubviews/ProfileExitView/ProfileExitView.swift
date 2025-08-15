@@ -15,7 +15,9 @@ struct ProfileExitView: View {
     }
     
     var body: some View {
-        if vm.isUserLoggedIn {
+        if vm.isViewEmpty {
+            EmptyView()
+        } else {
             HStack {
                 Image(systemName: "square.and.arrow.up")
                 Text("Выход")
@@ -25,8 +27,6 @@ struct ProfileExitView: View {
             .onTapGesture {
                 vm.exitAction()
             }
-        } else {
-           EmptyView()
         }
     }
 }
