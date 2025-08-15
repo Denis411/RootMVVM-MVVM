@@ -18,8 +18,13 @@ struct ContentView: View {
         ScrollView {
             VStack(spacing: 0) {
                 RegistrationView(repo: vm.repo)
+                
+                ActiveBonusPointsView(repo: vm.repo)
+                    .padding(.bottom, 25)
+                
                 OrderTrackView(repo: vm.repo)
                     .padding(.bottom, 25)
+                
                 ChevronView(
                     leftImage: Image(systemName: "cart"),
                     title: "Покупки"

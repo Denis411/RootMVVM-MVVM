@@ -13,8 +13,8 @@ protocol RepositoryUserListener: AnyObject {
 }
 
 protocol RepositoryActivePointListener: AnyObject {
-    func userDidIncreasePoints() async -> Int
-    func userDidDecreasePoints() async -> Int
+    func userDidIncreasePoints(newValue: Int) async
+    func userDidDecreasePoints(newValue: Int) async
 }
 
 protocol RepositoryProtocol {
@@ -68,10 +68,18 @@ final class Repository: RepositoryProtocol {
     func increaseActivePoints(by number: Int) async {
         // fix me: data race
         activePoints += number
+        for listener in userListeners {
+            await (listener.value as? RepositoryActivePointListener)?
+                .userDidIncreasePoints(newValue: activePoints)
+        }
     }
     
     func decreasePoints(by number: Int) async {
         activePoints -= number
+        for listener in userListeners {
+            await (listener.value as? RepositoryActivePointListener)?
+                .userDidDecreasePoints(newValue: activePoints)
+        }
     }
     
     // MARK: - Observation
