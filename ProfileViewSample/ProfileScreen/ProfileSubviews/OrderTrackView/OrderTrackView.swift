@@ -8,19 +8,27 @@
 import SwiftUI
 
 struct OrderTrackView: View {
-    @StateObject private var vm = OrderTrackVM()
+    @StateObject private var vm: OrderTrackVM
+    
+    init(repo: RepositoryProtocol) {
+        self._vm = StateObject(wrappedValue: OrderTrackVM(repo: repo))
+    }
     
     var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(alignment: .top, spacing: 20) {
-                ForEach(vm.models) { model in
-                    Cell(
-                        model: model,
-                        isOpen: false
-                    )
-                    .cornerRadius(15)
+        if vm.hasUser {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(alignment: .top, spacing: 20) {
+                    ForEach(vm.models) { model in
+                        Cell(
+                            model: model,
+                            isOpen: false
+                        )
+                        .cornerRadius(15)
+                    }
                 }
             }
+        } else {
+            EmptyView()
         }
     }
 }

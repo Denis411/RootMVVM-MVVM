@@ -8,6 +8,8 @@
 import Combine
 
 final class OrderTrackVM: ObservableObject {
+    private let repo: RepositoryProtocol
+    @Published var hasUser: Bool
     @Published var models = [
         OrderTrackModel(),
         OrderTrackModel(),
@@ -15,4 +17,9 @@ final class OrderTrackVM: ObservableObject {
         OrderTrackModel(),
         OrderTrackModel()
     ]
+    
+    init(repo: RepositoryProtocol) {
+        self.repo = repo
+        self.hasUser = repo.isUserLoggedIn
+    }
 }
