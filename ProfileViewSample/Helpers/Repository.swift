@@ -12,16 +12,28 @@ protocol RepositoryUserListener: AnyObject {
     func userDidLogOut() async
 }
 
+protocol RepositoryActivePointListener: AnyObject {
+    func userDidIncreasePoints() async -> Int
+    func userDidDecreasePoints() async -> Int
+}
+
 protocol RepositoryProtocol {
+    //MARK: - User logic
     var isUserLoggedIn: Bool { get }
     func logInUser() async throws
     func logOutUser() async throws
     
+    //MARK: - Bonus points
+    var activePoints: Int { get }
+    func increaseActivePoints(by number: Int) async
+    func decreasePoints(by number: Int) async
+    // MARK: - Observation
     // I simplify everything because it is a prototype
     // But you will have to inject everything properly
     // splitting protocols could be a good idea too
     var userListeners: [Weak<AnyObject>] { get }
-    func addListener(_ listener: RepositoryUserListener)
+    func addListener(_ listener: RepositoryUserListener)        // pay attention to dynamic polimorphism
+    func addListener(_ listener: RepositoryActivePointListener) //
 }
 
 protocol LogInListener {
@@ -46,10 +58,31 @@ final class Repository: RepositoryProtocol {
         }
     }
     
-    // observation
+    //MARK: - Bonus points
+    private(set) var activePoints: Int = 0 {
+        willSet {
+            assert(newValue >= 0)
+        }
+    }
+    
+    func increaseActivePoints(by number: Int) async {
+        // fix me: data race
+        activePoints += number
+    }
+    
+    func decreasePoints(by number: Int) async {
+        activePoints -= number
+    }
+    
+    // MARK: - Observation
     private(set) var userListeners: [Weak<AnyObject>] = []
     
     func addListener(_ listener: RepositoryUserListener) {
+        let weakReference = Weak(value: listener as AnyObject)
+        userListeners.append(weakReference)
+    }
+    
+    func addListener(_ listener: any RepositoryActivePointListener) {
         let weakReference = Weak(value: listener as AnyObject)
         userListeners.append(weakReference)
     }
