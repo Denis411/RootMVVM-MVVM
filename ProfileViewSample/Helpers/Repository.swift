@@ -35,14 +35,14 @@ final class Repository: RepositoryProtocol {
     func logInUser() async throws {
         isUserLoggedIn = true
         for listener in userListeners {
-            await (listener as? RepositoryListener)?.userDidLogIn()
+            await (listener.value as? RepositoryListener)?.userDidLogIn()
         }
     }
     
     func logOutUser() async throws {
         isUserLoggedIn = false
         for listener in userListeners {
-            await (listener as? RepositoryListener)?.userDidLogOut()
+            await (listener.value as? RepositoryListener)?.userDidLogOut()
         }
     }
     
