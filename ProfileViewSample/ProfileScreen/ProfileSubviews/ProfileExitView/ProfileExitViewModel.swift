@@ -14,6 +14,7 @@ final class ProfileExitViewModel: ObservableObject {
     init(repo: RepositoryProtocol) {
         self.isUserLoggedIn = repo.isUserLoggedIn
         self.repo = repo
+        repo.addListener(self)
     }
     
     func exitAction() {
@@ -23,6 +24,24 @@ final class ProfileExitViewModel: ObservableObject {
                 try await repo.logOutUser()
             } catch {
                 print("Something went wrong")
+            }
+        }
+    }
+}
+
+extension ProfileExitViewModel: RepositoryListener {
+    func userDidLogIn() async {
+        if isUserLoggedIn != true {
+            await MainActor.run {
+                isUserLoggedIn = true
+            }
+        }
+    }
+    
+    func userDidLogOut() async {
+        if isUserLoggedIn != false {
+            await MainActor.run {
+                isUserLoggedIn = false
             }
         }
     }

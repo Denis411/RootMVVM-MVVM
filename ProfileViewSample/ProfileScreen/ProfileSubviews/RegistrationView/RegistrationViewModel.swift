@@ -14,6 +14,7 @@ final class RegistrationViewModel: ObservableObject {
     init(repo: RepositoryProtocol) {
         self.repo = repo
         self.isUserLoggedIn = repo.isUserLoggedIn
+        repo.addListener(self)
     }
     
     func logInUser() {
@@ -24,6 +25,24 @@ final class RegistrationViewModel: ObservableObject {
                 isUserLoggedIn = true
             } catch {
                 print("login error")
+            }
+        }
+    }
+}
+
+extension RegistrationViewModel: RepositoryListener {
+    func userDidLogIn() async {
+        if isUserLoggedIn != true {
+            await MainActor.run {
+                isUserLoggedIn = true
+            }
+        }
+    }
+    
+    func userDidLogOut() async {
+        if isUserLoggedIn != false {
+            await MainActor.run {
+                isUserLoggedIn = false
             }
         }
     }

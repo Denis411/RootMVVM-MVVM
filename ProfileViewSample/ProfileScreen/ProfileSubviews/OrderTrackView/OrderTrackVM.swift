@@ -21,5 +21,24 @@ final class OrderTrackVM: ObservableObject {
     init(repo: RepositoryProtocol) {
         self.repo = repo
         self.hasUser = repo.isUserLoggedIn
+        repo.addListener(self)
+    }
+}
+
+extension OrderTrackVM: RepositoryListener {
+    func userDidLogIn() async {
+        if hasUser != true {
+            await MainActor.run {
+                hasUser = true
+            }
+        }
+    }
+    
+    func userDidLogOut() async {
+        if hasUser != false {
+            await MainActor.run {
+                hasUser = false
+            }
+        }
     }
 }
