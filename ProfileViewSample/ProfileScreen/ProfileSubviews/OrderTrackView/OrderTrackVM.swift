@@ -25,7 +25,7 @@ final class OrderTrackVM: ObservableObject {
     }
 }
 
-extension OrderTrackVM: RepositoryListener {
+extension OrderTrackVM: RepositoryUserListener {
     func userDidLogIn() async {
         if isViewEmpty != false {
             await MainActor.run {

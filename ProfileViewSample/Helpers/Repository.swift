@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol RepositoryListener: AnyObject {
+protocol RepositoryUserListener: AnyObject {
     func userDidLogIn() async
     func userDidLogOut() async
 }
@@ -21,7 +21,7 @@ protocol RepositoryProtocol {
     // But you will have to inject everything properly
     // splitting protocols could be a good idea too
     var userListeners: [Weak<AnyObject>] { get }
-    func addListener(_ listener: RepositoryListener)
+    func addListener(_ listener: RepositoryUserListener)
 }
 
 protocol LogInListener {
@@ -35,21 +35,21 @@ final class Repository: RepositoryProtocol {
     func logInUser() async throws {
         isUserLoggedIn = true
         for listener in userListeners {
-            await (listener.value as? RepositoryListener)?.userDidLogIn()
+            await (listener.value as? RepositoryUserListener)?.userDidLogIn()
         }
     }
     
     func logOutUser() async throws {
         isUserLoggedIn = false
         for listener in userListeners {
-            await (listener.value as? RepositoryListener)?.userDidLogOut()
+            await (listener.value as? RepositoryUserListener)?.userDidLogOut()
         }
     }
     
     // observation
     private(set) var userListeners: [Weak<AnyObject>] = []
     
-    func addListener(_ listener: RepositoryListener) {
+    func addListener(_ listener: RepositoryUserListener) {
         let weakReference = Weak(value: listener as AnyObject)
         userListeners.append(weakReference)
     }

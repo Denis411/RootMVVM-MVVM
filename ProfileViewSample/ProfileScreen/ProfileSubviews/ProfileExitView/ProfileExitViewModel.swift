@@ -29,7 +29,7 @@ final class ProfileExitViewModel: ObservableObject {
     }
 }
 
-extension ProfileExitViewModel: RepositoryListener {
+extension ProfileExitViewModel: RepositoryUserListener {
     func userDidLogIn() async {
         if isViewEmpty != false {
             await MainActor.run {

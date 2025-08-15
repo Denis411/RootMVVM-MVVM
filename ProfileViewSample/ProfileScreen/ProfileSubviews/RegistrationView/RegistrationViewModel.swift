@@ -30,7 +30,7 @@ final class RegistrationViewModel: ObservableObject {
     }
 }
 
-extension RegistrationViewModel: RepositoryListener {
+extension RegistrationViewModel: RepositoryUserListener {
     func userDidLogIn() async {
         if isViewEmpty != true {
             await MainActor.run {
