@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// if a nested ChevronView becomes too big, relocate logic from ContentView.vm to the ChevronView and make it a separate MVVM(MVC or whatever) but keep dependencies("services") in ContentView
 struct ContentView: View {
     @StateObject var vm: ProfileRootVM
     
