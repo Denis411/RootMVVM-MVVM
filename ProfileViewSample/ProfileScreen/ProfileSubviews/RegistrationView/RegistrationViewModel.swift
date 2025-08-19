@@ -22,7 +22,6 @@ final class RegistrationViewModel: ObservableObject {
         Task { @MainActor in
             do {
                 try await repo.logInUser()
-                isViewEmpty = true
             } catch {
                 print("login error")
             }
