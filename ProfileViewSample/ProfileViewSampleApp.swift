@@ -14,7 +14,7 @@ struct ProfileViewSampleApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView(repo: repo)
+            RootMVVM(repo: repo)
         }
     }
 }
