@@ -11,7 +11,7 @@ import SwiftUI
 struct ProfileViewSampleApp: App {
     // Use DI
     private let repo: RepositoryProtocol = Repository()
-    
+
     var body: some Scene {
         WindowGroup {
             ContentView(repo: repo)

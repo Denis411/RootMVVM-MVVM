@@ -9,32 +9,33 @@ import Combine
 
 class ProfileRootVM: ObservableObject {
     let repo: RepositoryProtocol
-    
+
     init(repo: RepositoryProtocol) {
         self.repo = repo
     }
-    
+
     // MARK: - Actions
+
     func didTapFavoriteProducts() {
         print("Favorite products tapped")
     }
-    
+
     func didTapLoyaltyProgramInfo() {
         print("Loyalty program info tapped")
     }
-    
+
     func didTapGeolocation() {
         print("Geolocation tapped")
     }
-    
+
     func didTapHelp() {
         print("Help tapped")
     }
-    
+
     func didTapLegalInfo() {
         print("Legal info tapped")
     }
-    
+
     func didTapSendResume() {
         print("Send resume tapped")
     }
